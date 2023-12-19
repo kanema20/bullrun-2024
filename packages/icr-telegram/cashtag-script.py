@@ -1,21 +1,21 @@
 import telegram
 import tweepy
+import os
 
 # Telegram bot token
-telegram_token = 'YOUR_TELEGRAM_TOKEN'
-
+os.environ["TELEGRAM_TOKEN"] = "1"
 # Twitter API credentials
-consumer_key = 'YOUR_TWITTER_CONSUMER_KEY'
-consumer_secret = 'YOUR_TWITTER_CONSUMER_SECRET'
-access_token = 'YOUR_TWITTER_ACCESS_TOKEN'
-access_token_secret = 'YOUR_TWITTER_ACCESS_TOKEN_SECRET'
+os.environ["TWITTER_CONSUMER_KEY"] = "2"
+os.environ["TWITTER_CONSUMER_SECRET"] = "3"
+os.environ["TWITTER_ACCESS_TOKEN"] = "4"
+os.environ["TWITTER_ACCESS_TOKEN_SECRET"] = "5"
 
 # Create the Telegram bot
-bot = telegram.Bot(token=telegram_token)
+bot = telegram.Bot(token=os.environ["TELEGRAM_TOKEN"])
 
 # Create the Twitter API client
-auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-auth.set_access_token(access_token, access_token_secret)
+auth = tweepy.OAuthHandler(os.environ["TWITTER_CONSUMER_KEY"], os.environ["TWITTER_CONSUMER_SECRET"] )
+auth.set_access_token(os.environ["TWITTER_ACCESS_TOKEN"], os.environ["TWITTER_ACCESS_TOKEN_SECRET"])
 twitter_api = tweepy.API(auth)
 
 # Function to handle incoming Telegram messages
@@ -34,7 +34,7 @@ def handle_message(update, context):
             bot.send_message(chat_id=chat_id, text=tweet.full_text)
 
 # Create the Telegram bot updater and dispatcher
-updater = telegram.Updater(token=telegram_token, use_context=True)
+updater = telegram.Updater(token=os.environ["TELEGRAM_TOKEN"], use_context=True)
 dispatcher = updater.dispatcher
 
 # Register the message handler function
